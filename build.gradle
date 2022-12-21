@@ -1,19 +1,51 @@
-plugins {
-    id 'java'
-}
-
 group 'org.agriko.farmos.cn'
-version '1.0-SNAPSHOT'
 
-repositories {
-    mavenCentral()
+task publishApiToMavenLocal {
+    dependsOn gradle.includedBuild('api').task(':publishToMavenLocal')
 }
 
-dependencies {
-    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
-    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+task publishServiceToMavenLocal {
+    mustRunAfter publishApiToMavenLocal
+    dependsOn gradle.includedBuild('service').task(':publishToMavenLocal')
 }
 
-test {
-    useJUnitPlatform()
+task publishComponentTestToMavenLocal {
+    mustRunAfter publishApiToMavenLocal
+    mustRunAfter publishServiceToMavenLocal
+    dependsOn gradle.includedBuild('component-test').task(':publishToMavenLocal')
+}
+
+task publishToMavenLocal {
+    group 'all'
+    dependsOn publishApiToMavenLocal
+    dependsOn publishServiceToMavenLocal
+    dependsOn publishComponentTestToMavenLocal
+}
+
+task artifactoryPublish {
+    group 'all'
+    dependsOn publishToMavenLocal
+    dependsOn gradle.includedBuild('api').task(':artifactoryPublish')
+    dependsOn gradle.includedBuild('service').task(':artifactoryPublish')
+    dependsOn gradle.includedBuild('component-test').task(':artifactoryPublish')
+}
+
+task prepareForTest {
+    group 'all'
+    dependsOn publishToMavenLocal
+    dependsOn gradle.includedBuild('component-test').task(':build')
+}
+
+task clean {
+    group 'all'
+    dependsOn gradle.includedBuild('api').task(':clean')
+    dependsOn gradle.includedBuild('service').task(':clean')
+    dependsOn gradle.includedBuild('component-test').task(':clean')
+}
+
+task licenseFormat {
+    group 'all'
+    dependsOn gradle.includedBuild('api').task(':licenseFormat')
+    dependsOn gradle.includedBuild('service').task(':licenseFormat')
+    dependsOn gradle.includedBuild('component-test').task(':licenseFormat')
 }

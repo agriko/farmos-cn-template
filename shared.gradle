@@ -1,0 +1,73 @@
+group = 'org.agriko.farmos.cn.template'
+version = '0.1.0.BUILD-SNAPSHOT'
+sourceCompatibility = '17'
+
+ext {
+    set('springBootVersion', "2.7.6")
+    set('springCloudVersion', "2021.0.5")
+    set('cassandraVersion', "3.6")
+    set('cassandraDriverVersion', "3.1.2")
+    set('frameworkApiVersion', "0.1.0-BUILD-SNAPSHOT")
+    set('frameworkLangVersion', "0.1.0-BUILD-SNAPSHOT")
+    set('frameworkTestVersion', "0.1.0-BUILD-SNAPSHOT")
+    set('frameworkPostgresqlVersion', "0.1.0-BUILD-SNAPSHOT")
+    set('frameworkCassandraVersion', "0.1.0-BUILD-SNAPSHOT")
+    set('validatorVersion', "5.3.0.Final")
+}
+
+
+tasks.withType(JavaCompile) {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
+}
+
+repositories {
+    mavenLocal()
+    maven { url 'https://mifos.jfrog.io/mifos/libs-snapshot/' }
+    mavenCentral()
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
+
+
+
+dependencies {
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+}
+
+jar {
+    from sourceSets.main.java
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
+artifactory {
+    contextUrl = System.getenv("ARTIFACTORY_URL")
+    publish {
+        repository {
+            repoKey = project.findProperty('artifactoryRepoKey')
+            username = System.getenv("ARTIFACTORY_USER")
+            password = System.getenv("ARTIFACTORY_PASSWORD")
+        }
+        defaults {
+            publications ('api', 'componentTest', 'service', 'bootService')
+        }
+    }
+}
+artifactoryPublish.dependsOn('publishToMavenLocal')
+
+
+license {
+    header rootProject.file('../HEADER')
+    strictCheck true
+    mapping {
+        java = 'SLASHSTAR_STYLE'
+        xml = 'XML_STYLE'
+        yml = 'SCRIPT_STYLE'
+        yaml = 'SCRIPT_STYLE'
+    }
+}
+

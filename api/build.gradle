@@ -1,0 +1,55 @@
+plugins {
+    id 'java'
+    id 'maven-publish'
+    id 'io.spring.dependency-management' version '1.0.15.RELEASE'
+    id 'org.springframework.boot' version '2.7.6'
+    id "com.github.hierynomus.license" version "0.13.1"
+    id "com.jfrog.artifactory" version "4.9.5"
+}
+apply from: '../shared.gradle'
+
+group 'org.agriko.farmos.cn'
+version '1.0-SNAPSHOT'
+
+configurations {
+    compileOnly {
+        extendsFrom annotationProcessor
+    }
+}
+
+
+
+ext {
+    set('springCloudVersion', "2021.0.5")
+}
+
+
+dependencies {
+    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+    testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
+}
+
+dependencyManagement {
+    imports {
+        mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+    }
+}
+
+test {
+    useJUnitPlatform()
+}
+//tasks.named('test') {
+//    useJUnitPlatform()
+//}
+
+publishing {
+    publications {
+        api(MavenPublication) {
+            from components.java
+            groupId project.group
+            artifactId project.name
+            version project.findProperty('externalVersion') ?: project.version
+        }
+    }
+}
