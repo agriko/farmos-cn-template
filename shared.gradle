@@ -1,3 +1,5 @@
+import org.gradle.api.plugins.internal.DefaultJavaPluginExtension
+
 group = 'org.agriko.farmos.cn.template'
 version = '0.1.0.BUILD-SNAPSHOT'
 sourceCompatibility = '17'
@@ -12,7 +14,7 @@ ext {
     set('frameworkTestVersion', "0.1.0-BUILD-SNAPSHOT")
     set('frameworkPostgresqlVersion', "0.1.0-BUILD-SNAPSHOT")
     set('frameworkCassandraVersion', "0.1.0-BUILD-SNAPSHOT")
-    set('validatorVersion', "5.3.0.Final")
+    set('validatorVersion', "8.0.0.Final")
 }
 
 
@@ -34,7 +36,6 @@ dependencyManagement {
 }
 
 
-
 dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
@@ -53,7 +54,7 @@ artifactory {
             password = System.getenv("ARTIFACTORY_PASSWORD")
         }
         defaults {
-            publications ('api', 'componentTest', 'service', 'bootService')
+            publications('api', 'componentTest', 'service', 'bootService')
         }
     }
 }

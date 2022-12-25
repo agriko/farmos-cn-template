@@ -3,13 +3,10 @@ plugins {
     id 'maven-publish'
     id 'io.spring.dependency-management' version '1.0.15.RELEASE'
     id 'org.springframework.boot' version '2.7.6'
-    id "com.github.hierynomus.license" version "0.13.1"
-    id "com.jfrog.artifactory" version "4.9.5"
+    id "com.github.hierynomus.license" version "0.16.1"
+    id "com.jfrog.artifactory" version "4.30.1"
 }
 apply from: '../shared.gradle'
-
-group 'org.agriko.farmos.cn'
-version '1.0-SNAPSHOT'
 
 configurations {
     compileOnly {
@@ -17,6 +14,13 @@ configurations {
     }
 }
 
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
+}
 
 
 ext {
@@ -26,6 +30,9 @@ ext {
 
 dependencies {
     implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+    implementation "org.hibernate:hibernate-validator:${validatorVersion}"
+    implementation "org.hibernate:hibernate-validator-annotation-processor:${validatorVersion}"
+
     testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
 }

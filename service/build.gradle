@@ -2,8 +2,8 @@ plugins {
 	id 'groovy'
 	id 'org.springframework.boot' version '2.7.6'
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
-	id "com.github.hierynomus.license" version "0.13.1"
-	id "com.jfrog.artifactory" version "4.9.5"
+	id "com.github.hierynomus.license" version "0.16.1"
+	id "com.jfrog.artifactory" version "4.30.1"
 }
 
 apply from: '../shared.gradle'
@@ -22,6 +22,7 @@ repositories {
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-actuator'
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'org.springframework.cloud:spring-cloud-starter-netflix-eureka-client'
 	implementation 'org.codehaus.groovy:groovy'
 	compileOnly 'org.projectlombok:lombok'
 	annotationProcessor 'org.projectlombok:lombok'
