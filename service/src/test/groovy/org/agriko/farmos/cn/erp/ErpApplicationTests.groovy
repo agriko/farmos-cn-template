@@ -1,10 +1,10 @@
-package org.agriko.farmos.cn.template
+package org.agriko.farmos.cn.erp
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
-class TemplateApplicationTests {
+class ErpApplicationTests {
 
 	@Test
 	void contextLoads() {

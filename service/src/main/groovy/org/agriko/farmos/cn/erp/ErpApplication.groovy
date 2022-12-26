@@ -16,9 +16,16 @@
  * specific language governing permissions and limitations
  * under the License.
  */
-package org.agriko.farmos.cn.template.api;
+package org.agriko.farmos.cn.erp
 
-import org.springframework.cloud.openfeign.FeignClient;
+import org.springframework.boot.SpringApplication
+import org.springframework.boot.autoconfigure.SpringBootApplication
 
-@FeignClient(value="template-v1", path="/template/v1")
-public interface TemplateApi { }
+@SpringBootApplication
+class ErpApplication {
+
+	static void main(String[] args) {
+		SpringApplication.run(ErpApplication, args)
+	}
+
+}

@@ -1,6 +1,6 @@
 import org.gradle.api.plugins.internal.DefaultJavaPluginExtension
 
-group = 'org.agriko.farmos.cn.template'
+group = 'org.agriko.farmos.cn.erp'
 version = '0.1.0.BUILD-SNAPSHOT'
 sourceCompatibility = '17'
 

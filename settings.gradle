@@ -1,4 +1,4 @@
-rootProject.name = 'template'
+rootProject.name = 'erp'
 includeBuild 'api'
 includeBuild 'service'
 includeBuild 'component-test'
